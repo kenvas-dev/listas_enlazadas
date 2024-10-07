@@ -1,6 +1,10 @@
 import infraestructure.ListaEnlazadaSimpleActionsImplement;
 import infraestructure.ListaEnlazadaSimpleImplement;
 
+/**
+ * @name ListaEnlazadaSimple
+ * @description Clase creada para crear una lista de elementos.
+ */
 public class ListaEnlazadaSimple implements ListaEnlazadaSimpleImplement, ListaEnlazadaSimpleActionsImplement {
 
     private Nodo cabeza;
@@ -11,12 +15,23 @@ public class ListaEnlazadaSimple implements ListaEnlazadaSimpleImplement, ListaE
         contador = 0;
     }
 
+    /**
+     * @param dato int
+     * @name insertarAlInicio
+     * @description metodo que permite insertar valores al inicio
+     * de la lista enlazada
+     */
     @Override
     public void insertarAlInicio(int dato) {
         cabeza = new Nodo(dato, cabeza);
         contador++;
     }
 
+    /**
+     * @name eliminarAlInicio
+     * @description metodo que permite eliminar valores al inicio
+     * de la lista enlazada
+     */
     @Override
     public void eliminarAlInicio() {
         final int indexInit = 0;
@@ -26,6 +41,11 @@ public class ListaEnlazadaSimple implements ListaEnlazadaSimpleImplement, ListaE
         }
     }
 
+    /**
+     * @name insertar
+     * @description metodo que permite insertar valores al final
+     * de la lista enlazada
+     */
     @Override
     public void insertar(int dato) {
         Nodo nuevo = new Nodo(dato, null);
@@ -42,12 +62,38 @@ public class ListaEnlazadaSimple implements ListaEnlazadaSimpleImplement, ListaE
         }
     }
 
+    /**
+     * @param element
+     * @name eliminar
+     * @description metodo que permite eliminar el valor digitado
+     * de la lista enlazada
+     */
     @Override
     public void eliminar(int element) {
-
-        deleteNodeElement(element);
+        if (cabeza == null)
+            CustomMessage.outln(new String[]{"lista vacía"});
+        else if (cabeza.getDato() == element) {
+            cabeza = cabeza.getSiguiente();
+            contador--;
+        } else {
+            Nodo actual = cabeza;
+            while (actual.getSiguiente() != null && actual.getSiguiente().getDato() != element)
+                actual = actual.getSiguiente();
+            if (actual.getSiguiente() == null)
+                CustomMessage.outln(new String[]{"El elemento " + element + " no esta en la lista"});
+            else {
+                actual.setSiguiente(actual.getSiguiente().getSiguiente());
+                contador--;
+            }
+        }
     }
 
+    /**
+     * @param element
+     * @name eliminar
+     * @description metodo que permite buscar el valor digitado
+     * de la lista enlazada
+     */
     @Override
     public boolean buscar(int element) {
         Nodo aux = cabeza;
@@ -67,44 +113,34 @@ public class ListaEnlazadaSimple implements ListaEnlazadaSimpleImplement, ListaE
         return encontrado;
     }
 
+    /**
+     * @name listar
+     * @description metodo que permite listar la lista enlazada
+     */
     @Override
     public void listar() {
         if (cabeza != null) {
             Nodo aux = cabeza;
             int i = 0;
             while (aux != null) {
-                System.out.print("| " + aux.getDato() + " |");
+                CustomMessage.out(new String[]{"| " + aux.getDato() + " |"});
                 aux = aux.getSiguiente();
                 i++;
             }
-        }else{
-            System.out.println("lista vacía");
-        }
-        System.out.println();
-        System.out.println();
-    }
-
-
-    private void deleteNodeElement(int element) {
-        if (cabeza == null)
-            System.out.println("lista vacía");
-        else if (cabeza.getDato() == element) {
-            cabeza = cabeza.getSiguiente();
-            contador--;
         } else {
-            Nodo actual = cabeza;
-            while (actual.getSiguiente() != null && actual.getSiguiente().getDato() != element)
-                actual = actual.getSiguiente();
-            if (actual.getSiguiente() == null)
-                CustomMessage.outln(new String[]{"El elemento " + element + " no esta en la lista"});
-            else {
-                actual.setSiguiente(actual.getSiguiente().getSiguiente());
-                contador--;
-            }
+            CustomMessage.outln(new String[]{"lista vacía"});
         }
+        System.out.println();
+        System.out.println();
     }
+
+
+    /**
+     * @name vaciarLista
+     * @description metodo que permite vaciar la lista enlazada
+     */
     @Override
-    public void vaciarLista(){
+    public void vaciarLista() {
         cabeza = null;
         contador = 0;
     }
